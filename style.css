@@ -24,7 +24,7 @@ body {
   background-color: var(--theme-color);
   color: white;
   font-family: 'Poppins', Arial;
-  width: 504px;
+  width: 802px;
   padding: 0.5rem 1rem;
 }
 .developer {
@@ -33,7 +33,7 @@ body {
 }
 .drawing-app {
   display: grid;
-  grid-template-columns: 3rem calc(500px + 0.25rem) 3rem;
+  grid-template-columns: 3rem calc(800px + 0.25rem) 3rem;
   grid-auto-flow: dense;
 }
 

@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d');
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 800;
+canvas.height = 800;
 
 const increaseBtn = document.getElementById('increase');
 const decreaseBtn = document.getElementById('decrease');
