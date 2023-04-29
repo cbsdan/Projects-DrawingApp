@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+:root {
+  --theme-color: rgb(64, 71, 199);
+}
+* {
+  padding: 0; 
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+#app-label {
+  display: flex;
+  justify-content: space-between;
+
+  background-color: var(--theme-color);
+  color: white;
+  font-family: 'Poppins', Arial;
+  width: 504px;
+  padding: 0.5rem 1rem;
+}
+.developer {
+  font-weight: normal;
+  color: rgb(120, 252, 120);
+}
+.drawing-app {
+  display: grid;
+  grid-template-columns: 3rem calc(500px + 0.25rem) 3rem;
+  grid-auto-flow: dense;
+}
+
+#canvas {
+  border: 2px solid var(--theme-color);;
+  grid-column-start: 2;
+}
+.left {
+  grid-column-start: 1;
+}
+.right {
+  grid-column-start: 3;
+}
+.toolbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  row-gap: 0.5rem;
+
+}
+
+.toolbox > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--theme-color);
+  color: white;
+
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+
+  font-size: 1rem;
+  cursor: pointer;
+}
