@@ -11,6 +11,7 @@ const colorEl = document.getElementById('color');
 const undoBtn = document.getElementById('undo');
 const clearBtn = document.getElementById('clear');
 
+
 let isPressed = false;
 let size = 6;
 let x = undefined; 
@@ -18,8 +19,23 @@ let y = undefined;
 let color = colorEl.value;
 
 let canvasUndoStateStack = [];
+let getPrevCanvas = getCanvasFromLs();
 
-console.log('Hello');
+
+
+if (getPrevCanvas !== undefined) {
+  // create an image element
+  var img = new Image();
+
+  // set the source of the image element to the data URL
+  img.src = getPrevCanvas;
+
+  img.onload = function() {
+    // draw the image on the canvas
+    ctx.drawImage(img, 0, 0);
+  };
+}
+
 
 
 //Buttons Event Listener
@@ -35,7 +51,6 @@ decreaseBtn.addEventListener('click', ()=> {
 
 colorEl.addEventListener('change', ()=> {
   color = colorEl.value;
-  console.log(color);
 })
 
 undoBtn.addEventListener('click', ()=> {
@@ -44,20 +59,23 @@ undoBtn.addEventListener('click', ()=> {
   } 
   if (canvasUndoStateStack.length > 0) {
     ctx.putImageData(canvasUndoStateStack[canvasUndoStateStack.length - 1], 0, 0);
+    saveToLs();
   }
   if (canvasUndoStateStack.length === 0) {
     clearBtn.click();
+    saveToLs();
   }
-  console.log('undo');
-  console.log(canvasUndoStateStack);
 })
 
 clearBtn.addEventListener(('click'), ()=> {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   canvasUndoStateStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-  console.log(canvasUndoStateStack);
+  
+  saveToLs ();
 });
+
+
 
 //Canvas Event Listener - Mouse Click
 canvas.addEventListener('mousedown', (e)=> {
@@ -74,7 +92,7 @@ canvas.addEventListener('mouseup', ()=>{
   y = undefined;
 
   canvasUndoStateStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-  console.log(canvasUndoStateStack);
+  saveToLs();
 })
 
 canvas.addEventListener('mousemove', (e)=>{
@@ -92,6 +110,7 @@ canvas.addEventListener('mousemove', (e)=>{
 })
 
 
+
 //Canvas Event Listener - Touchscreen
 canvas.addEventListener('touchstart', (e)=>{
   e.preventDefault(); // Prevent default touch actions like scrolling
@@ -102,8 +121,8 @@ canvas.addEventListener('touchstart', (e)=>{
   x = touch.clientX - canvas.offsetLeft;
   y = touch.clientY - canvas.offsetTop;
   
-  console.log(x, y);
 });
+
 canvas.addEventListener('touchmove', (e)=>{
   e.preventDefault();
 
@@ -130,7 +149,8 @@ canvas.addEventListener('touchend', (e)=>{
   y = undefined;
 
   canvasUndoStateStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-  console.log(canvasUndoStateStack);
+  saveToLs();
+
 });
 
 function drawCircle(x, y) {
@@ -157,4 +177,22 @@ function updateLineSize(size) {
   }
   sizeEl.innerHTML = size;
   return size;
+}
+
+function saveToLs () {
+  // get the image data from the canvas
+  var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  // convert the image data to a Base64-encoded string
+  var dataURL = canvas.toDataURL();
+
+  // store the data in local storage
+  localStorage.setItem("myImageData", dataURL);
+}
+
+function getCanvasFromLs () {
+  // get the data from local storage
+  let dataURL = localStorage.getItem("myImageData");
+
+  return dataURL || undefined;
 }
